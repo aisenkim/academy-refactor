@@ -6,7 +6,7 @@ import { HttpStatus, InternalServerErrorException } from '@nestjs/common';
 @EntityRepository(Sentence)
 export class SentenceRepository extends Repository<Sentence> {
   /**
-   * Used for getting sentence questions for populating exam page
+   * Used for getting sentence questions for populating exams page
    * @param filterDto - level(required), from(required), to(required)
    */
   async getSentenceByFilter(filterDto: GetQuestionsFilterDto) {

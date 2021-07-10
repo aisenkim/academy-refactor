@@ -20,7 +20,7 @@ export class QuestionController {
 
   /**
    * GET questions by filter
-   * Used for getting questions for populating exam page
+   * Used for getting questions for populating exams page
    * @param filterDto - level(required), from(optional), to(optional)
    */
   @Get()

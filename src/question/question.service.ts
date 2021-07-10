@@ -12,7 +12,7 @@ export class QuestionService {
   ) {}
 
   /**
-   * Used for getting questions for populating exam page
+   * Used for getting questions for populating exams page
    * @param filterDto - level(required), from(required), to(required)
    */
   async getQuestionsByFilter(

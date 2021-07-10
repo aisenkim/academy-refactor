@@ -10,7 +10,7 @@ import {
 @EntityRepository(Question)
 export class QuestionsRepository extends Repository<Question> {
   /**
-   * Used for getting questions for populating exam page
+   * Used for getting questions for populating exams page
    * @param filterDto - level(required), from(optional), to(optional)
    */
   async getQuestionsByFilter(filterDto: GetQuestionsFilterDto) {
@@ -58,7 +58,12 @@ export class QuestionsRepository extends Repository<Question> {
     const data = questionData.data;
     const level = questionData.level;
 
-    data.shift(); // remove first data (don't need)
+    try {
+      data.shift(); // remove first data (don't need)
+    } catch (error) {
+      // if provided data is a different type
+      throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
+    }
     const questionList = [];
     for (const line of data) {
       const [questionNum, word, definition, questionNum2, word2, definition2] =

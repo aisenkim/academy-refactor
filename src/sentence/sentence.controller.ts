@@ -20,7 +20,7 @@ export class SentenceController {
   constructor(private readonly sentenceService: SentenceService) {}
 
   /**
-   * Used for getting sentence questions for populating exam page
+   * Used for getting sentence questions for populating exams page
    * @param filterDto - level(required), from(required), to(required)
    */
   @Get()
