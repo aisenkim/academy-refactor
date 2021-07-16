@@ -11,10 +11,14 @@ import {
 } from '@nestjs/common';
 import { User } from './user.entity';
 import * as bcrypt from 'bcrypt';
+import { JwtModule, JwtService } from '@nestjs/jwt';
+import { PassportModule } from '@nestjs/passport';
+import { JwtPayload } from './dto/jwt-payload.interface';
 
 describe('AuthService', () => {
   let service: AuthService;
   let repository;
+  let jwtService: JwtService;
 
   const mockUserRepository = () => ({
     createUser: jest.fn(),
@@ -33,10 +37,20 @@ describe('AuthService', () => {
         AuthService,
         { provide: UsersRepository, useFactory: mockUserRepository },
       ],
+      imports: [
+        PassportModule.register({ defaultStrategy: 'jwt' }),
+        JwtModule.register({
+          secret: 'topSecret15',
+          signOptions: {
+            expiresIn: 3600,
+          },
+        }),
+      ],
     }).compile();
 
     service = module.get<AuthService>(AuthService);
     repository = module.get<UsersRepository>(UsersRepository);
+    jwtService = module.get<JwtService>(JwtService);
   });
   describe('Check if everything is defined', () => {
     it('should be defined', () => {
@@ -74,7 +88,7 @@ describe('AuthService', () => {
   });
 
   describe('signIn', () => {
-    it('should sign in the user and return success', async () => {
+    it('should sign in the user and return access token on success', async () => {
       const salt = await bcrypt.genSalt();
       const hashedPassword = await bcrypt.hash('test', salt);
 
@@ -83,8 +97,10 @@ describe('AuthService', () => {
       user.password = hashedPassword;
 
       repository.findOne.mockResolvedValue(user);
-      const result = await service.signIn(credentials);
-      expect(result).toEqual('success');
+      const result: { accessToken: string } = await service.signIn(credentials);
+      const payload: JwtPayload = { username: user.username };
+      const accessToken: string = jwtService.sign(payload);
+      expect(result.accessToken).toEqual(accessToken);
     });
 
     it('should throw unauthorized exception for wrong credentials', async () => {
@@ -97,7 +113,7 @@ describe('AuthService', () => {
 
       repository.findOne.mockResolvedValue(user);
       try {
-        const result = await service.signIn(credentials);
+        await service.signIn(credentials);
       } catch (err) {
         expect(err).toBeInstanceOf(UnauthorizedException);
         expect(err.message).toEqual('Please check your login credentials');

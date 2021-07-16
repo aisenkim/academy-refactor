@@ -1,7 +1,6 @@
 import { EntityRepository, Repository } from 'typeorm';
 import { User } from './user.entity';
 import { AuthCredentialDto } from './dto/auth-credential-dto';
-import { InternalServerErrorException } from '@nestjs/common';
 import { UserError } from './user-error.enum';
 import { PGError } from '../util/pg-error.enum';
 import * as bcrypt from 'bcrypt';
