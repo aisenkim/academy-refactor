@@ -1,10 +1,10 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
-import { UsersRepository } from '../user.repository';
+import { UsersRepository } from './user.repository';
 import { InjectRepository } from '@nestjs/typeorm';
 import { JwtPayload } from './jwt-payload.interface';
-import { User } from '../user.entity';
+import { User } from './user.entity';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
@@ -15,7 +15,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     // since extending Passport Strategy, need to call the super method
     super({
       secretOrKey: 'topSecret15',
-      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken, // how to extract token
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(), // how to extract token
     });
   }
 

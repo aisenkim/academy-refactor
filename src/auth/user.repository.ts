@@ -4,6 +4,7 @@ import { AuthCredentialDto } from './dto/auth-credential-dto';
 import { UserError } from './user-error.enum';
 import { PGError } from '../util/pg-error.enum';
 import * as bcrypt from 'bcrypt';
+import { Role } from './role.enum';
 
 @EntityRepository(User)
 export class UsersRepository extends Repository<User> {
@@ -13,13 +14,25 @@ export class UsersRepository extends Repository<User> {
    * @return - UserError which is an enum
    */
   async createUser(authCredentialsDto: AuthCredentialDto): Promise<UserError> {
-    const { username, password } = authCredentialsDto;
+    const { username, password, name, level } = authCredentialsDto;
+    let { roles } = authCredentialsDto;
 
     // hash the password
     const salt = await bcrypt.genSalt();
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    const user = this.create({ username, password: hashedPassword });
+    if (!this.isRoleType(roles)) {
+      // if provided roles not part of the ROLES ENUM...
+      roles = undefined; // database will set it to default value
+    }
+
+    const user = this.create({
+      username,
+      password: hashedPassword,
+      name,
+      level,
+      roles,
+    });
     try {
       await this.save(user);
       // return nothing for no errors
@@ -30,8 +43,18 @@ export class UsersRepository extends Repository<User> {
       if (err.code === PGError.UNIQUE_VIOLATION) {
         return UserError.DUPLICATE_USER;
       } else {
+        console.log(err);
         return UserError.SERVER_ERROR;
       }
     }
+  }
+
+  /**
+   * Check if provided role parameter === Role ENUM TYPE
+   * @param test - role input entered by user
+   * @returns - true if Role type. Otherwise false
+   */
+  isRoleType(test: any): test is Role {
+    return Object.values(Role).indexOf(test) !== -1;
   }
 }

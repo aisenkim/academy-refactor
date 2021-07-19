@@ -13,7 +13,7 @@ import { User } from './user.entity';
 import * as bcrypt from 'bcrypt';
 import { JwtModule, JwtService } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
-import { JwtPayload } from './dto/jwt-payload.interface';
+import { JwtPayload } from './jwt-payload.interface';
 
 describe('AuthService', () => {
   let service: AuthService;

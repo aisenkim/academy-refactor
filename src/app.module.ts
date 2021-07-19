@@ -7,6 +7,7 @@ import { AuthModule } from './auth/auth.module';
 import { ResponseModule } from './response/response.module';
 import { ExamsModule } from './exams/exams.module';
 import { RetestsModule } from './retests/retests.module';
+import { PlanModule } from './plan/plan.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { RetestsModule } from './retests/retests.module';
     ResponseModule,
     ExamsModule,
     RetestsModule,
+    PlanModule,
   ],
 })
 export class AppModule {}

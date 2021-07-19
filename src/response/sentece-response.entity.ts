@@ -1,4 +1,11 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { Exams } from '../exams/exams.entity';
 
 /**
  * Entity to each response of a sentence-question
@@ -21,6 +28,6 @@ export class SentenceResponse extends BaseEntity {
   isMeaning: boolean; // if question type is word or meaning
 
   // TODO - implement connection after defining [USER] and [EXAMS]
-  // @ManyToOne((_type) => Exam, (exams) => exams.examQuestion, { eager: false })
-  // exams: Exam;
+  @ManyToOne((_type) => Exams, (exams) => exams.examQuestion, { eager: false })
+  exams: Exams;
 }

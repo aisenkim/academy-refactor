@@ -1,5 +1,5 @@
 import { Role } from '../role.enum';
-import { IsString, MaxLength, MinLength } from 'class-validator';
+import { IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
 
 export class AuthCredentialDto {
   @IsString()
@@ -13,5 +13,12 @@ export class AuthCredentialDto {
   password: string;
 
   @IsString()
-  role: Role;
+  name: string;
+
+  @IsString()
+  level: string;
+
+  @IsString()
+  @IsOptional()
+  roles: Role;
 }

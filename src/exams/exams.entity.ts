@@ -8,6 +8,8 @@ import {
   PrimaryColumn,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { QuestionResponse } from '../response/question-response.entity';
+import { User } from '../auth/user.entity';
 
 @Entity()
 export class Exams extends BaseEntity {
@@ -36,14 +38,18 @@ export class Exams extends BaseEntity {
   @Column()
   testType: string; // word || sentence
 
-  // @OneToMany((_type) => ExamQuestion, (examQuestion) => examQuestion.exams, {
-  //   eager: true,
-  // })
-  // examQuestion: ExamQuestion[];
+  @OneToMany(
+    (_type) => QuestionResponse,
+    (examQuestion) => examQuestion.exams,
+    {
+      eager: true,
+    },
+  )
+  examQuestion: QuestionResponse[];
   //
-  // @ManyToOne((_type) => User, (user) => user.exams, { eager: false })
-  // @Exclude({ toPlainOnly: true }) // whenever return json response, exlude user field (security reason)
-  // user: User;
+  @ManyToOne((_type) => User, (user) => user.exams, { eager: false })
+  @Exclude({ toPlainOnly: true }) // whenever return json response, exlude user field (security reason)
+  user: User;
 }
 
 // connecting user with each answer data

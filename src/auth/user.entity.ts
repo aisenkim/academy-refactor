@@ -5,6 +5,9 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { Exams } from '../exams/exams.entity';
+import { Role } from './role.enum';
+import { Exclude } from 'class-transformer';
 
 @Entity()
 // @Unique()
@@ -16,6 +19,7 @@ export class User extends BaseEntity {
   username: string;
 
   @Column()
+  @Exclude()
   password: string;
 
   @Column()
@@ -25,9 +29,9 @@ export class User extends BaseEntity {
   level: string;
 
   // // eager:true -> it will automatically fetch exams
-  // @OneToMany((_type) => Exam, (exams) => exams.user, { eager: true })
-  // exams: Exam[];
-  //
-  // @Column({ type: 'enum', enum: Role, default: Role.USER })
-  // roles: Role;
+  @OneToMany((_type) => Exams, (exams) => exams.user, { eager: true })
+  exams: Exams[];
+
+  @Column({ type: 'enum', enum: Role, default: Role.USER })
+  roles: Role;
 }

@@ -10,7 +10,8 @@ import { AuthCredentialDto } from './dto/auth-credential-dto';
 import { UserError } from './user-error.enum';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
-import { JwtPayload } from './dto/jwt-payload.interface';
+import { JwtPayload } from './jwt-payload.interface';
+import { SigninCredentialDto } from './dto/signin-credential.dto';
 
 @Injectable()
 export class AuthService {
@@ -38,9 +39,9 @@ export class AuthService {
   }
 
   async signIn(
-    authCredentialsDto: AuthCredentialDto,
+    signinCredentialDto: SigninCredentialDto,
   ): Promise<{ accessToken: string }> {
-    const { username, password } = authCredentialsDto;
+    const { username, password } = signinCredentialDto;
     const user = await this.usersRepository.findOne({ username });
 
     if (user && (await bcrypt.compare(password, user.password))) {
