@@ -22,7 +22,6 @@ export class ResponseController {
     @Body() submittedResponse: ResponseDto,
     @GetUser() user: User,
   ) {
-    console.log(user);
     return this.responseService.submitResponses(submittedResponse, user);
   }
 }

@@ -16,12 +16,6 @@ export class PlanService {
   }
 
   async getPlan(getPlanDto: GetPlanDto) {
-    const { level, testDate, testType } = getPlanDto;
-    const query = this.planRepository.createQueryBuilder('plan');
-    query
-      .where('plan.level = :level', { level })
-      .andWhere('plan.testDate = :testDate', { testDate })
-      .andWhere('plan.testType = :testType', { testType });
-    return await query.getOne();
+    return await this.planRepository.getPlan(getPlanDto);
   }
 }

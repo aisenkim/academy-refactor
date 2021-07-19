@@ -12,6 +12,7 @@ import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { JwtPayload } from './jwt-payload.interface';
 import { SigninCredentialDto } from './dto/signin-credential.dto';
+import { PostSigninObjectDto } from './dto/post-signin-object.dto';
 
 @Injectable()
 export class AuthService {
@@ -40,14 +41,19 @@ export class AuthService {
 
   async signIn(
     signinCredentialDto: SigninCredentialDto,
-  ): Promise<{ accessToken: string }> {
+  ): Promise<PostSigninObjectDto> {
     const { username, password } = signinCredentialDto;
     const user = await this.usersRepository.findOne({ username });
 
     if (user && (await bcrypt.compare(password, user.password))) {
       const payload: JwtPayload = { username };
       const accessToken: string = await this.jwtService.sign(payload);
-      return { accessToken };
+      return {
+        accessToken,
+        name: user.name,
+        roles: user.roles,
+        level: user.level,
+      };
     } else {
       throw new UnauthorizedException('Please check your login credentials');
     }

@@ -8,16 +8,29 @@ import {
   Patch,
   Post,
   Query,
+  UseGuards,
   ValidationPipe,
 } from '@nestjs/common';
 import { SentenceRepository } from './sentence.repository';
 import { GetQuestionsFilterDto } from '../question/dto/get-questions-filter.dto';
 import { SentenceService } from './sentence.service';
 import { Sentence } from './sentence.entity';
+import { GetUser } from '../auth/get-user.decorator';
+import { User } from '../auth/user.entity';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('sentence')
+@UseGuards(AuthGuard('jwt'))
 export class SentenceController {
   constructor(private readonly sentenceService: SentenceService) {}
+
+  @Get('/todayQuestions')
+  getTodayQuestions(
+    @Query(ValidationPipe) testType: string,
+    @GetUser() user: User,
+  ) {
+    return this.sentenceService.getTodayQuestions(user, testType);
+  }
 
   /**
    * Used for getting sentence questions for populating exams page

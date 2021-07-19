@@ -2,6 +2,7 @@ import { User } from 'src/auth/user.entity';
 import { EntityRepository, Repository } from 'typeorm';
 import { Plan } from './plan.entity';
 import { PlanDto } from './dto/plan.dto';
+import { GetPlanDto } from './dto/get-plan.dto';
 
 @EntityRepository(Plan)
 export class PlanRepository extends Repository<Plan> {
@@ -17,5 +18,17 @@ export class PlanRepository extends Repository<Plan> {
     planData.questionType = questionType;
 
     await planData.save();
+  }
+
+  async getPlan(getPlanDto: GetPlanDto) {
+    const { level, testDate } = getPlanDto;
+    let testType: any = getPlanDto.testType;
+    testType = testType.testType;
+    const query = this.createQueryBuilder('plan');
+    query
+      .where('plan.level = :level', { level })
+      .andWhere('plan.testDate = :testDate', { testDate })
+      .andWhere('plan.testType = :testType', { testType });
+    return await query.getOne();
   }
 }

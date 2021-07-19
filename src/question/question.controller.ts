@@ -8,15 +8,28 @@ import {
   Patch,
   Post,
   Query,
+  UseGuards,
   ValidationPipe,
 } from '@nestjs/common';
 import { QuestionService } from './question.service';
 import { GetQuestionsFilterDto } from './dto/get-questions-filter.dto';
 import { Question } from './question.entity';
+import { GetUser } from '../auth/get-user.decorator';
+import { User } from '../auth/user.entity';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('questions')
+@UseGuards(AuthGuard('jwt'))
 export class QuestionController {
   constructor(private readonly questionService: QuestionService) {}
+
+  @Get('/todayQuestions')
+  getTodayQuestions(
+    @Query(ValidationPipe) testType: string,
+    @GetUser() user: User,
+  ) {
+    return this.questionService.getTodayQuestions(user, testType);
+  }
 
   /**
    * GET questions by filter
