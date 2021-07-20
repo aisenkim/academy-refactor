@@ -8,6 +8,10 @@ import { Role } from './role.enum';
 
 @EntityRepository(User)
 export class UsersRepository extends Repository<User> {
+  async getAllUsers() {
+    return await this.createQueryBuilder('user').getMany();
+  }
+
   /**
    * save user to DB, otherwise return error message to service
    * @param authCredentialsDto - holds username, password, role

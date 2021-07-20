@@ -10,6 +10,7 @@ import {
 } from 'typeorm';
 import { QuestionResponse } from '../response/question-response.entity';
 import { User } from '../auth/user.entity';
+import { SentenceResponse } from '../response/sentece-response.entity';
 
 @Entity()
 export class Exams extends BaseEntity {
@@ -46,7 +47,16 @@ export class Exams extends BaseEntity {
     },
   )
   examQuestion: QuestionResponse[];
-  //
+
+  @OneToMany(
+    (_type) => SentenceResponse,
+    (sentenceResponse) => sentenceResponse.exams,
+    {
+      eager: true,
+    },
+  )
+  sentenceResponses: SentenceResponse[];
+
   @ManyToOne((_type) => User, (user) => user.exams, { eager: false })
   @Exclude({ toPlainOnly: true }) // whenever return json response, exlude user field (security reason)
   user: User;

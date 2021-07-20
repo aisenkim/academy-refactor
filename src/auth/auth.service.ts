@@ -21,6 +21,10 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
+  async getAllUsers() {
+    return this.usersRepository.getAllUsers();
+  }
+
   /**
    * Signup user
    * handle error by receiving error message from the repository

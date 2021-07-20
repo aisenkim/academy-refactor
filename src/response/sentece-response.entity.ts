@@ -27,7 +27,8 @@ export class SentenceResponse extends BaseEntity {
   @Column()
   isMeaning: boolean; // if question type is word or meaning
 
-  // TODO - implement connection after defining [USER] and [EXAMS]
-  @ManyToOne((_type) => Exams, (exams) => exams.examQuestion, { eager: false })
+  @ManyToOne((_type) => Exams, (exams) => exams.sentenceResponses, {
+    eager: false,
+  })
   exams: Exams;
 }
