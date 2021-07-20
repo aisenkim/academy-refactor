@@ -6,6 +6,9 @@ import { QuestionResponseRepository } from './question-response.repository';
 import { SentenceResponseRepository } from './sentence-response.repository';
 import { ExamRepository } from '../exams/exam.repository';
 import { Exams } from '../exams/exams.entity';
+import { RetestRepository } from '../retests/retest.repository';
+import { RetestDto } from '../retests/dto/retest.dto';
+import { getTodayDate } from '../util/get-todays-date';
 
 @Injectable()
 export class ResponseService {
@@ -15,6 +18,7 @@ export class ResponseService {
     @InjectRepository(SentenceResponseRepository)
     private sResponseRepository: SentenceResponseRepository,
     private examRepository: ExamRepository,
+    private retestRepository: RetestRepository,
   ) {}
 
   async submitResponses(submittedResponses: ResponseDto, user: User) {
@@ -36,8 +40,23 @@ export class ResponseService {
         average,
       );
     } catch (err) {
-      console.log(err);
       throw new InternalServerErrorException();
+    }
+
+    // post to retest table if didn't pass
+    if (!isPass) {
+      try {
+        const retestDto: RetestDto = {
+          isComplete: false,
+          testType,
+          testDate: getTodayDate(),
+          range,
+          user,
+        };
+        await this.retestRepository.saveRetest(retestDto);
+      } catch (err) {
+        throw new InternalServerErrorException();
+      }
     }
 
     // 4. post each line to ExamQuestion (perform bulk insert)

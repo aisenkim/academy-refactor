@@ -1,0 +1,16 @@
+
+POST http://localhost:4000/auth/signin
+Content-Type: application/json
+
+{
+  "username": "test",
+  "password": "password"
+}
+
+> {% client.global.set("auth_token", response.body.accessToken); %}
+
+### Authorization by token, part 2. Use token to authorize.
+GET http://localhost:4000/retests
+Authorization: Bearer {{auth_token}}
+###
+

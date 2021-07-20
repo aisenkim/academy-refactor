@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { QuestionResponseRepository } from './question-response.repository';
 import { SentenceResponseRepository } from './sentence-response.repository';
 import { ExamRepository } from '../exams/exam.repository';
+import { RetestRepository } from '../retests/retest.repository';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { ExamRepository } from '../exams/exam.repository';
       QuestionResponseRepository,
       SentenceResponseRepository,
       ExamRepository,
+      RetestRepository,
     ]),
   ],
   controllers: [ResponseController],
