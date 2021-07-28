@@ -14,5 +14,8 @@ export class RetestDto {
   @IsNotEmpty()
   testType: string;
 
+  @IsNotEmpty()
+  questionType: string;
+
   user: User;
 }

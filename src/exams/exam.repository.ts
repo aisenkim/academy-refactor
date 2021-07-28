@@ -7,11 +7,6 @@ import { getTodayDate } from '../util/get-todays-date';
 export class ExamRepository extends Repository<Exams> {
   /**
    * saves exam and if successful, returns the exam
-   * @param testType
-   * @param range
-   * @param isPass
-   * @param user
-   * @param average
    */
   async saveExam(
     testType: string,
@@ -19,6 +14,7 @@ export class ExamRepository extends Repository<Exams> {
     isPass: boolean,
     user: User,
     average: number,
+    retest: boolean,
   ): Promise<Exams> {
     const exam = new Exams();
     exam.testType = testType;
@@ -28,6 +24,7 @@ export class ExamRepository extends Repository<Exams> {
     exam.isPass = isPass;
     exam.user = user;
     exam.average = average;
+    exam.retest = retest;
     await exam.save();
     return exam;
   }

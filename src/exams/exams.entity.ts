@@ -29,9 +29,8 @@ export class Exams extends BaseEntity {
   @Column()
   isPass: boolean; // indicates if a grade is a pass or fail
 
-  // instead of this make a new table for retest
-  // @Column()
-  // isRetest: boolean; // indicates if current test is a retest or an initial test
+  @Column()
+  retest: boolean; // indicates if current test is a retest or an initial test
 
   @Column()
   average: number;

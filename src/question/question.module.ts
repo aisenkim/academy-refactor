@@ -9,5 +9,6 @@ import { PlanRepository } from '../plan/plan.repository';
   imports: [TypeOrmModule.forFeature([QuestionsRepository, PlanRepository])],
   controllers: [QuestionController],
   providers: [QuestionService],
+  exports: [QuestionService],
 })
 export class QuestionModule {}

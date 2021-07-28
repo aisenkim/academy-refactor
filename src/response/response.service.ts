@@ -22,8 +22,15 @@ export class ResponseService {
   ) {}
 
   async submitResponses(submittedResponses: ResponseDto, user: User) {
-    const { question_num, range, answer, myAnswers, isMeaning, testType } =
-      submittedResponses;
+    const {
+      question_num,
+      range,
+      answer,
+      myAnswers,
+      isMeaning,
+      retest,
+      testType,
+    } = submittedResponses;
 
     // 1. check answers
     // 2. get average (check pass or fail)
@@ -38,12 +45,33 @@ export class ResponseService {
         isPass,
         user,
         average,
+        retest,
       );
     } catch (err) {
       throw new InternalServerErrorException();
     }
 
+    // check question type of each response
+    let questionType = '';
+    const allEquals = (arr) => arr.every((value) => value === arr[0]);
+    if (allEquals(isMeaning) && !isMeaning[0]) {
+      // if type word...
+      questionType = 'word';
+    } else if (allEquals(isMeaning) && isMeaning[0]) {
+      // if type is meaning...
+      questionType = 'meaning';
+    } else {
+      questionType = 'mixed';
+    }
+
+    // if current test is retest, delete it from retest table
+    // if the person gets re-retest, then it will be saved again
+    if (retest) {
+      await this.retestRepository.deleteRetest(range, testType);
+    }
+
     // post to retest table if didn't pass
+    // retest table is basically the same as plan table
     if (!isPass) {
       try {
         const retestDto: RetestDto = {
@@ -52,6 +80,7 @@ export class ResponseService {
           testDate: getTodayDate(),
           range,
           user,
+          questionType,
         };
         await this.retestRepository.saveRetest(retestDto);
       } catch (err) {

@@ -30,6 +30,9 @@ export class Retest extends BaseEntity {
   @Column()
   testType: string; // word || sentence
 
+  @Column()
+  questionType: string; // word || meaning || mixed
+
   @ManyToOne((_type) => User, (user) => user.retest, { eager: false })
   @Exclude({ toPlainOnly: true }) // whenever return json response, exclude user field (security reason)
   user: User;

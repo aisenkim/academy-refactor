@@ -9,5 +9,6 @@ import { PlanRepository } from '../plan/plan.repository';
   imports: [TypeOrmModule.forFeature([SentenceRepository, PlanRepository])],
   controllers: [SentenceController],
   providers: [SentenceService],
+  exports: [SentenceService],
 })
 export class SentenceModule {}

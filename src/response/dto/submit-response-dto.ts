@@ -20,5 +20,8 @@ export class ResponseDto {
   isMeaning: boolean[];
 
   @IsNotEmpty()
+  retest: boolean;
+
+  @IsNotEmpty()
   testType: string; // word || sentence
 }
