@@ -6,6 +6,7 @@ import { Sentence } from './sentence.entity';
 import { User } from '../auth/user.entity';
 import { getTodayDate } from '../util/get-todays-date';
 import { PlanRepository } from '../plan/plan.repository';
+import { Exams } from '../exams/exams.entity';
 
 @Injectable()
 export class SentenceService {
@@ -63,24 +64,14 @@ export class SentenceService {
       return JSON.stringify([]);
     }
 
-    /**
-     // Call exam database and check if the user has already taken the test
-     const todaysExam = await this.getTodayExam(user, testType);
-
-     if (todaysExam.length >= 2) {
-      // User can take at most two exams per day
+    // Check if current user has already taken today's test
+    let allExams: Exams[] = user.exams;
+    allExams = allExams.filter((exam) => {
+      return exam.date === getTodayDate() && exam.testType === 'word';
+    });
+    if (allExams.length > 0) {
       return JSON.stringify([]);
     }
-
-     // if user passed (over 70) on a day, don't show the exam on test page
-     if (todaysExam.length > 0) {
-      for (const exam of todaysExam) {
-        if (exam.average >= 70) {
-          return JSON.stringify([]);
-        }
-      }
-    }
-     */
 
     const { from, to, questionType } = plan;
 
