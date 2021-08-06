@@ -13,6 +13,7 @@ import { JwtService } from '@nestjs/jwt';
 import { JwtPayload } from './jwt-payload.interface';
 import { SigninCredentialDto } from './dto/signin-credential.dto';
 import { PostSigninObjectDto } from './dto/post-signin-object.dto';
+import { User } from './user.entity';
 
 @Injectable()
 export class AuthService {
@@ -21,7 +22,7 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async getAllUsers() {
+  async getAllUsers(): Promise<User[]> {
     return this.usersRepository.getAllUsers();
   }
 

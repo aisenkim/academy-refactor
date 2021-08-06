@@ -15,6 +15,7 @@ import { JwtStrategy } from './jwt.strategy';
       secret: 'topSecret15',
       signOptions: {
         expiresIn: 3600,
+        // expiresIn: 10,
       },
     }),
   ],

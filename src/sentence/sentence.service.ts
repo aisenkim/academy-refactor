@@ -67,7 +67,7 @@ export class SentenceService {
     // Check if current user has already taken today's test
     let allExams: Exams[] = user.exams;
     allExams = allExams.filter((exam) => {
-      return exam.date === getTodayDate() && exam.testType === 'word';
+      return exam.date === getTodayDate() && exam.testType === 'sentence';
     });
     if (allExams.length > 0) {
       return JSON.stringify([]);

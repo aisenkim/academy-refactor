@@ -23,12 +23,15 @@ describe('AuthService', () => {
   const mockUserRepository = () => ({
     createUser: jest.fn(),
     findOne: jest.fn(),
+    getAllUsers: jest.fn(),
   });
 
   const credentials: AuthCredentialDto = {
     username: 'test',
     password: 'test',
-    role: Role.USER,
+    roles: Role.USER,
+    name: 'Aisen',
+    level: 'lt3',
   };
 
   beforeEach(async () => {
@@ -118,6 +121,32 @@ describe('AuthService', () => {
         expect(err).toBeInstanceOf(UnauthorizedException);
         expect(err.message).toEqual('Please check your login credentials');
       }
+    });
+  });
+
+  describe('getAllUser', () => {
+    const user1 = new User();
+    user1.id = '1';
+    user1.name = 'user1';
+    user1.username = 'user1';
+    user1.password = 'user1';
+    user1.level = 'level';
+    user1.roles = Role.USER;
+
+    const user2 = new User();
+    user2.id = '2';
+    user2.name = 'user2';
+    user2.username = 'user2';
+    user2.password = 'user2';
+    user2.level = 'level';
+    user2.roles = Role.USER;
+
+    const allUsers = [user1, user2];
+
+    it('should return all users', async () => {
+      repository.getAllUsers.mockResolvedValue(allUsers);
+      const resultUsers = await service.getAllUsers();
+      expect(resultUsers).toHaveLength(2);
     });
   });
 });
