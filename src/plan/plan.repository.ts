@@ -3,10 +3,14 @@ import { EntityRepository, Repository } from 'typeorm';
 import { Plan } from './plan.entity';
 import { PlanDto } from './dto/plan.dto';
 import { GetPlanDto } from './dto/get-plan.dto';
+import {
+  BadRequestException,
+  InternalServerErrorException,
+} from '@nestjs/common';
 
 @EntityRepository(Plan)
 export class PlanRepository extends Repository<Plan> {
-  async createPlan(plan: PlanDto, user: User) {
+  async createPlan(plan: PlanDto, user: User): Promise<void> {
     const { testType, level, from, to, testDate, questionType } = plan;
 
     const planData = new Plan();
@@ -17,7 +21,19 @@ export class PlanRepository extends Repository<Plan> {
     planData.testDate = testDate;
     planData.questionType = questionType;
 
-    await planData.save();
+    try {
+      await planData.save();
+    } catch (err) {
+      if (
+        err.code === '23502' ||
+        err.code === '22P02' ||
+        err.code === '22007'
+      ) {
+        throw new BadRequestException('Check form input data');
+      } else {
+        throw new InternalServerErrorException();
+      }
+    }
   }
 
   async getPlan(getPlanDto: GetPlanDto) {
