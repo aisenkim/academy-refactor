@@ -7,7 +7,7 @@ export class SigninCredentialDto {
   username: string;
 
   @IsString()
-  @MinLength(8)
+  @MinLength(4)
   @MaxLength(32)
   password: string;
 }
