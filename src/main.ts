@@ -8,7 +8,8 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
   // to hide the user information when making requests
   // app.useGlobalInterceptors(new TransformInterceptor());
-  await app.listen(4000);
+  const port = process.env.PORT;
+  await app.listen(port);
 }
 
 bootstrap();
