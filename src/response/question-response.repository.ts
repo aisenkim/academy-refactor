@@ -23,4 +23,24 @@ export class QuestionResponseRepository extends Repository<QuestionResponse> {
     }
     await this.save(wordResponses);
   }
+
+  async updateResponse(responseId: string, data): Promise<void> {
+    const response = await this.findOne({ id: responseId });
+    const { isCorrect } = data;
+    response.isCorrect = isCorrect;
+    await response.save();
+  }
+
+  /**
+   * return all responses associated with the examId
+   * @param examId
+   */
+  async getResponses(examId: number): Promise<QuestionResponse[]> {
+    return await this.find({
+      where: {
+        exams: { id: examId },
+      },
+      relations: ['exams'],
+    });
+  }
 }

@@ -52,11 +52,15 @@ export class Exams extends BaseEntity {
     (sentenceResponse) => sentenceResponse.exams,
     {
       eager: true,
+      onDelete: 'CASCADE',
     },
   )
   sentenceResponses: SentenceResponse[];
 
-  @ManyToOne((_type) => User, (user) => user.exams, { eager: false })
+  @ManyToOne((_type) => User, (user) => user.exams, {
+    eager: false,
+    onDelete: 'CASCADE',
+  })
   @Exclude({ toPlainOnly: true }) // whenever return json response, exlude user field (security reason)
   user: User;
 }

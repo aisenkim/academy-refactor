@@ -27,6 +27,9 @@ export class QuestionResponse extends BaseEntity {
   @Column()
   isMeaning: boolean; // if question type is word or meaning
 
-  @ManyToOne((_type) => Exams, (exams) => exams.examQuestion, { eager: false })
+  @ManyToOne((_type) => Exams, (exams) => exams.examQuestion, {
+    eager: false,
+    onDelete: 'CASCADE',
+  })
   exams: Exams;
 }

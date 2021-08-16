@@ -9,6 +9,9 @@ import { Exams } from '../exams/exams.entity';
 import { RetestRepository } from '../retests/retest.repository';
 import { RetestDto } from '../retests/dto/retest.dto';
 import { getTodayDate } from '../util/get-todays-date';
+import { QuestionResponse } from './question-response.entity';
+import { SentenceResponse } from './sentece-response.entity';
+import { Constants } from '../util/constants';
 
 @Injectable()
 export class ResponseService {
@@ -127,7 +130,7 @@ export class ResponseService {
     // TODO - (https://en.wikipedia.org/wiki/Levenshtein_distance)
     const isCorrect: boolean[] = [];
     let correctNum = 0;
-    const passGrade = 70;
+    const passGrade = Constants.PASS_GRADE;
 
     for (let i = 0; i < answer.length; i++) {
       isCorrect.push(answer[i] === myAnswer[i]);
@@ -138,5 +141,51 @@ export class ResponseService {
     const isPass: boolean = average >= passGrade;
 
     return { isCorrect, isPass, average };
+  }
+
+  async updateResponse(responseId: string, data): Promise<void> {
+    const { examId, range, testType } = data; // examType -> word or sentence type of exam
+
+    if (testType === 'word') {
+      await this.qResponseRepository.updateResponse(responseId, data);
+    } else {
+      await this.sResponseRepository.updateResponse(responseId, data);
+    }
+
+    // get all responses associated with the examid (examsId field in DB)
+    let responses: QuestionResponse[] | SentenceResponse[];
+
+    if (testType === 'word') {
+      responses = await this.qResponseRepository.getResponses(examId);
+    } else {
+      responses = await this.sResponseRepository.getResponses(examId);
+    }
+
+    // calculate average, get value of (isPass, retest)
+    let correctCount = 0;
+    for (let i = 0; i < responses.length; i++) {
+      if (responses[i].isCorrect) {
+        correctCount++;
+      }
+    }
+
+    const newAverage: number = Math.round(
+      (correctCount / responses.length) * 100,
+    );
+    const isPass: boolean = newAverage >= Constants.PASS_GRADE;
+    const isRetest = !isPass;
+
+    // call updateExam from exam repository
+    await this.examRepository.updateExam(examId, newAverage, isPass, isRetest);
+
+    // possibly need to erase retest from user if user went from retest: true to retest false
+    const retest = await this.retestRepository.findOne({
+      range,
+      testType,
+    });
+
+    if (retest && isPass) {
+      await this.retestRepository.delete({ range });
+    }
   }
 }

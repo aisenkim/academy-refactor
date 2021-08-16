@@ -30,10 +30,16 @@ export class User extends BaseEntity {
   level: string;
 
   // // eager:true -> it will automatically fetch exams
-  @OneToMany((_type) => Exams, (exams) => exams.user, { eager: true })
+  @OneToMany((_type) => Exams, (exams) => exams.user, {
+    eager: true,
+    onDelete: 'CASCADE',
+  })
   exams: Exams[];
 
-  @OneToMany((_type) => Retest, (retest) => retest.user, { eager: true })
+  @OneToMany((_type) => Retest, (retest) => retest.user, {
+    eager: true,
+    onDelete: 'CASCADE',
+  })
   retest: Retest[];
 
   @Column({ type: 'enum', enum: Role, default: Role.USER })

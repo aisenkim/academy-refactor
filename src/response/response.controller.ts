@@ -1,4 +1,11 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Param,
+  Patch,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import { ResponseService } from './response.service';
 import { ResponseDto } from './dto/submit-response-dto';
 import { User } from '../auth/user.entity';
@@ -23,5 +30,10 @@ export class ResponseController {
     @GetUser() user: User,
   ) {
     return this.responseService.submitResponses(submittedResponse, user);
+  }
+
+  @Patch('/:id')
+  updateResponse(@Param('id') id: string, @Body() data) {
+    this.responseService.updateResponse(id, data);
   }
 }

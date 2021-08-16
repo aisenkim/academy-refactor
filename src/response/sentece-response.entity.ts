@@ -29,6 +29,7 @@ export class SentenceResponse extends BaseEntity {
 
   @ManyToOne((_type) => Exams, (exams) => exams.sentenceResponses, {
     eager: false,
+    onDelete: 'CASCADE',
   })
   exams: Exams;
 }

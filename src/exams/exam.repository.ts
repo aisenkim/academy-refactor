@@ -28,4 +28,16 @@ export class ExamRepository extends Repository<Exams> {
     await exam.save();
     return exam;
   }
+
+  /**
+   * Update exam after exam questions have been altered
+   * (set to correct or wrong by the admin)
+   */
+  async updateExam(examId, average, isPass, isRetest): Promise<void> {
+    const exam: Exams = await this.findOne({ id: examId });
+    exam.average = average;
+    exam.isPass = isPass;
+    exam.retest = isRetest;
+    await exam.save();
+  }
 }

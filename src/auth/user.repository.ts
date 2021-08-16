@@ -5,6 +5,7 @@ import { UserError } from './user-error.enum';
 import { PGError } from '../util/pg-error.enum';
 import * as bcrypt from 'bcrypt';
 import { Role } from './role.enum';
+import { NotFoundException } from '@nestjs/common';
 
 @EntityRepository(User)
 export class UsersRepository extends Repository<User> {
@@ -60,5 +61,12 @@ export class UsersRepository extends Repository<User> {
    */
   isRoleType(test: any): test is Role {
     return Object.values(Role).indexOf(test) !== -1;
+  }
+
+  async deleteUser(username: string): Promise<void> {
+    const result = await this.delete({ username });
+    if (result.affected === 0) {
+      throw new NotFoundException(`User with id: ${username} does not exist`);
+    }
   }
 }

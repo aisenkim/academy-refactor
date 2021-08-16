@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  ParseUUIDPipe,
+  Post,
+} from '@nestjs/common';
 import { AuthCredentialDto } from './dto/auth-credential-dto';
 import { AuthService } from './auth.service';
 import { SigninCredentialDto } from './dto/signin-credential.dto';
@@ -7,14 +15,6 @@ import { PostSigninObjectDto } from './dto/post-signin-object.dto';
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
-
-  /**
-   * Query all users
-   */
-  @Get('/users')
-  getAllUsers() {
-    return this.authService.getAllUsers();
-  }
 
   @Post('/signup')
   signUp(@Body() authCredentialsDto: AuthCredentialDto): Promise<void> {
@@ -26,5 +26,18 @@ export class AuthController {
     @Body() signinCredentialDto: SigninCredentialDto,
   ): Promise<PostSigninObjectDto> {
     return this.authService.signIn(signinCredentialDto);
+  }
+
+  @Delete('/users/:username')
+  deleteUser(@Param('username') username: string): Promise<void> {
+    return this.authService.deleteUser(username);
+  }
+
+  /**
+   * Query all users
+   */
+  @Get('/users')
+  getAllUsers() {
+    return this.authService.getAllUsers();
   }
 }

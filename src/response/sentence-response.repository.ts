@@ -23,4 +23,20 @@ export class SentenceResponseRepository extends Repository<SentenceResponse> {
     }
     await this.save(sentenceResponses);
   }
+
+  async updateResponse(responseId: string, data) {
+    const response = await this.findOne({ id: responseId });
+    const { isCorrect } = data;
+    response.isCorrect = isCorrect;
+    await response.save();
+  }
+
+  async getResponses(examId: number): Promise<SentenceResponse[]> {
+    return await this.find({
+      where: {
+        exams: { id: examId },
+      },
+      relations: ['exams'],
+    });
+  }
 }

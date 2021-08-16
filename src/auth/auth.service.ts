@@ -63,4 +63,8 @@ export class AuthService {
       throw new UnauthorizedException('Please check your login credentials');
     }
   }
+
+  async deleteUser(username: string) {
+    return await this.usersRepository.deleteUser(username);
+  }
 }
