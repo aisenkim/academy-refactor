@@ -37,6 +37,7 @@ describe('ResponseController', () => {
     myAnswers: ['비명을 지르다, 괴성을 지르다', '싸우다'],
     isMeaning: [true, true],
     testType: 'word',
+    retest: false,
   };
 
   beforeEach(async () => {
