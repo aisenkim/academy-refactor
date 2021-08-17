@@ -6,7 +6,7 @@ import { QuestionResponseRepository } from './question-response.repository';
 import { SentenceResponseRepository } from './sentence-response.repository';
 import { ExamRepository } from '../exams/exam.repository';
 import { RetestRepository } from '../retests/retest.repository';
-import { UsersRepository } from '../auth/user.repository';
+import { PlanModule } from '../plan/plan.module';
 
 @Module({
   imports: [
@@ -16,6 +16,7 @@ import { UsersRepository } from '../auth/user.repository';
       ExamRepository,
       RetestRepository,
     ]),
+    PlanModule, // for deleting plan from user
   ],
   controllers: [ResponseController],
   providers: [ResponseService],

@@ -12,6 +12,7 @@ import { getTodayDate } from '../util/get-todays-date';
 import { QuestionResponse } from './question-response.entity';
 import { SentenceResponse } from './sentece-response.entity';
 import { Constants } from '../util/constants';
+import { PlanService } from '../plan/plan.service';
 
 @Injectable()
 export class ResponseService {
@@ -22,6 +23,7 @@ export class ResponseService {
     private sResponseRepository: SentenceResponseRepository,
     private examRepository: ExamRepository,
     private retestRepository: RetestRepository,
+    private readonly planService: PlanService,
   ) {}
 
   async submitResponses(submittedResponses: ResponseDto, user: User) {
@@ -111,6 +113,17 @@ export class ResponseService {
           savedExam,
         );
       }
+      // 5. delete the completed plan from user
+      // TODO - Add plan repository and then by using the method, delete the user plan that is completed
+      const [level, fromString, toString] = range.split('_');
+      const from = parseInt(fromString);
+      const to = parseInt(toString);
+      await this.planService.deletePlanByUser(user, {
+        level,
+        from,
+        to,
+        testType,
+      });
     } catch (err) {
       console.log(err);
       throw new InternalServerErrorException();

@@ -14,6 +14,7 @@ import { JwtPayload } from './jwt-payload.interface';
 import { SigninCredentialDto } from './dto/signin-credential.dto';
 import { PostSigninObjectDto } from './dto/post-signin-object.dto';
 import { User } from './user.entity';
+import { Plan } from '../plan/plan.entity';
 
 @Injectable()
 export class AuthService {

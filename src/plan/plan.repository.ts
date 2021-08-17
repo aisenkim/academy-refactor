@@ -10,7 +10,7 @@ import {
 
 @EntityRepository(Plan)
 export class PlanRepository extends Repository<Plan> {
-  async createPlan(plan: PlanDto, user: User): Promise<void> {
+  async createPlan(plan: PlanDto, users: User[]): Promise<void> {
     const { testType, level, from, to, testDate, questionType } = plan;
 
     const planData = new Plan();
@@ -20,6 +20,7 @@ export class PlanRepository extends Repository<Plan> {
     planData.to = to;
     planData.testDate = testDate;
     planData.questionType = questionType;
+    planData.user = users;
 
     try {
       await planData.save();
@@ -36,6 +37,10 @@ export class PlanRepository extends Repository<Plan> {
     }
   }
 
+  /**
+   * Find one plan that corresponds to level, testDate, and testType
+   * @param getPlanDto
+   */
   async getPlan(getPlanDto: GetPlanDto) {
     const { level, testDate } = getPlanDto;
     let testType: any = getPlanDto.testType;

@@ -2,6 +2,7 @@ import {
   BaseEntity,
   Column,
   Entity,
+  ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -9,6 +10,7 @@ import { Exams } from '../exams/exams.entity';
 import { Role } from './role.enum';
 import { Exclude } from 'class-transformer';
 import { Retest } from '../retests/retest.entity';
+import { Plan } from '../plan/plan.entity';
 
 @Entity()
 // @Unique()
@@ -41,6 +43,9 @@ export class User extends BaseEntity {
     onDelete: 'CASCADE',
   })
   retest: Retest[];
+
+  @ManyToMany(() => Plan, (plan) => plan.user, {})
+  plan: Plan[];
 
   @Column({ type: 'enum', enum: Role, default: Role.USER })
   roles: Role;
