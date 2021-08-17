@@ -93,6 +93,9 @@ export class ResponseService {
       }
     }
 
+    // if retest -> don't need to execute future code -> exit
+    if (retest) return;
+
     // 4. post each line to ExamQuestion (perform bulk insert)
     // https://orkhan.gitbook.io/typeorm/docs/insert-query-builder
     try {

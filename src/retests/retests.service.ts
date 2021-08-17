@@ -76,6 +76,27 @@ export class RetestsService {
         from,
         to,
       });
+      questions.map((question) => {
+        if (questionType === 'word') {
+          question['isMeaning'] = false;
+          // swap question and answer
+          const tmp = question.answer;
+          question.answer = question.question;
+          question.question = tmp;
+        } else if (questionType === 'meaning') {
+          question['isMeaning'] = true;
+        } else {
+          // mixed
+          const isAnswerWord = !!Math.round(Math.random());
+          question['isMeaning'] = isAnswerWord;
+          // here "word" == english word
+          if (!isAnswerWord) {
+            const tmp = question.answer;
+            question.answer = question.question;
+            question.question = tmp;
+          }
+        }
+      });
       return questions;
     }
   }

@@ -59,6 +59,7 @@ export class PlanService {
         userPlan.to === deletePlanDto.to &&
         userPlan.testType === deletePlanDto.testType,
     );
+    console.log(planToDelete);
     // 2. delete plan from the user
     userJoinedByPlan.plan = userJoinedByPlan.plan.filter(
       (userPlan) => userPlan.id !== planToDelete.id,
