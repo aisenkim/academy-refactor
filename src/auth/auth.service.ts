@@ -14,13 +14,14 @@ import { JwtPayload } from './jwt-payload.interface';
 import { SigninCredentialDto } from './dto/signin-credential.dto';
 import { PostSigninObjectDto } from './dto/post-signin-object.dto';
 import { User } from './user.entity';
-import { Plan } from '../plan/plan.entity';
+import { PlanService } from '../plan/plan.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     @InjectRepository(UsersRepository) private usersRepository: UsersRepository,
     private jwtService: JwtService,
+    private planService: PlanService,
   ) {}
 
   async getAllUsers(): Promise<User[]> {
@@ -35,7 +36,8 @@ export class AuthService {
   async signUp(authCredentialsDto: AuthCredentialDto): Promise<void> {
     const userError = await this.usersRepository.createUser(authCredentialsDto);
     if (!userError) {
-      // no errors
+      // no errors -> add all plans to the new user
+      await this.planService.addPlansNewUser(authCredentialsDto.username);
       return;
     }
     if (userError === UserError.DUPLICATE_USER) {

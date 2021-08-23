@@ -5,8 +5,10 @@ import { GetPlanDto } from './dto/get-plan.dto';
 import { PlanDto } from './dto/plan.dto';
 import { UsersRepository } from '../auth/user.repository';
 import { User } from '../auth/user.entity';
-import { Plan } from './plan.entity';
 import { DeletePlanDto } from './dto/delete-plan.dto';
+import { Plan } from './plan.entity';
+import { MoreThanOrEqual } from 'typeorm';
+import { getTodayDate } from '../util/get-todays-date';
 
 @Injectable()
 export class PlanService {
@@ -21,6 +23,23 @@ export class PlanService {
     // get users of the plan's level
     const levelFilteredUsers = allUsers.filter((user) => user.level === level);
     return await this.planRepository.createPlan(plan, levelFilteredUsers);
+  }
+
+  async addPlansNewUser(username: string) {
+    // find user by username
+    const newUser: User = await this.userRepository.findOne({ username });
+    // get plans
+    // filter plans so that older ones don't exist
+    const plans: Plan[] = await this.planRepository.find({
+      relations: ['user'],
+      where: { testDate: MoreThanOrEqual(getTodayDate()) },
+    });
+    // save it
+    for (let i = 0; i < plans.length; i++) {
+      plans[i].user = [...plans[i].user, newUser];
+    }
+    // perform bulk save on plans that have been updated with new users
+    await this.planRepository.save(plans);
   }
 
   async getPlan(getPlanDto: GetPlanDto) {
@@ -59,7 +78,6 @@ export class PlanService {
         userPlan.to === deletePlanDto.to &&
         userPlan.testType === deletePlanDto.testType,
     );
-    console.log(planToDelete);
     // 2. delete plan from the user
     userJoinedByPlan.plan = userJoinedByPlan.plan.filter(
       (userPlan) => userPlan.id !== planToDelete.id,

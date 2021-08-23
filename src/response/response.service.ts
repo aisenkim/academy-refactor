@@ -149,9 +149,30 @@ export class ResponseService {
     const passGrade = Constants.PASS_GRADE;
 
     for (let i = 0; i < answer.length; i++) {
-      isCorrect.push(answer[i] === myAnswer[i]);
-      if (isCorrect[i]) correctNum++;
+      // to remove empty space and make case insensitive
+      const correctAnswers = answer[i]
+        .toUpperCase()
+        .replace(/\s/g, '')
+        .split(',');
+      const myA = myAnswer[i].toUpperCase().replace(/\s/g, '');
+
+      let correct = false;
+
+      for (const answer of correctAnswers) {
+        if (answer === myA) {
+          correct = true;
+          correctNum++;
+          break;
+        } else {
+          correct = false;
+        }
+      }
+      isCorrect.push(correct);
     }
+    //
+    // isCorrect.push(answer[i].toUpperCase() === myAnswer[i].toUpperCase());
+    // if (isCorrect[i]) correctNum++;
+    // }
 
     const average: number = Math.round((correctNum / answer.length) * 100);
     const isPass: boolean = average >= passGrade;
