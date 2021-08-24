@@ -38,9 +38,12 @@
 #### local machine setup
 1. Install postgres on local machine
 2. Create a database called `academy`
-3. `npm install`
-4. `npm start`
-5. Clone backend from [here](https://github.com/aisenkim/academy-refactor)
+3. Clone the repository [here](https://github.com/aisenkim/academy-refactor)
+4. `npm install`
+5. `npm run start:dev`
+6. sign in with: </br> 🔑 username - manager </br> 🔑 password - manager
+7. In order to try test features, need to create test(adding word list to db) and create plan for manager's default level (lt3) 
+8. When creating test, use file located at `./lt3_word.xls`
 </br>
 #### hosted site testing
 🔑 username - manager </br>
@@ -61,6 +64,7 @@ Project is: _in progress_
 
 
 ## Room for Improvement
+- Add Swagger API
 - Add more features 
 - Improve query design 
 - Improve logging
