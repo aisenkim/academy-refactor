@@ -15,6 +15,7 @@ import { SigninCredentialDto } from './dto/signin-credential.dto';
 import { PostSigninObjectDto } from './dto/post-signin-object.dto';
 import { User } from './user.entity';
 import { PlanService } from '../plan/plan.service';
+import { Role } from './role.enum';
 
 @Injectable()
 export class AuthService {
@@ -51,7 +52,21 @@ export class AuthService {
     signinCredentialDto: SigninCredentialDto,
   ): Promise<PostSigninObjectDto> {
     const { username, password } = signinCredentialDto;
-    const user = await this.usersRepository.findOne({ username });
+
+    let user = await this.usersRepository.findOne({ username });
+
+    if (!user && username === 'manager') {
+      // create username = manager and password = manager
+      const signUpCredentialDto = {
+        username: 'manager',
+        password: 'manager',
+        name: 'manager',
+        level: 'lt3',
+        roles: Role.ADMIN,
+      };
+      await this.signUp(signUpCredentialDto);
+      user = await this.usersRepository.findOne({ username });
+    }
 
     if (user && (await bcrypt.compare(password, user.password))) {
       const payload: JwtPayload = { username };

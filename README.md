@@ -1,73 +1,78 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>
-</p>
+# Academy App 
+> This is an app created during the pandemic to help elementary school students at an english academy called EIE to take exams online.
+> Live demo [_here_](https://aisenkim.github.io/academy-frontend/#/) (**Check Setup section for username**). <!-- If you have the project hosted somewhere, include the link here. -->
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## Table of Contents
+* [General Info](#general-information)
+* [Technologies Used](#technologies-used)
+* [Features](#features)
+* [Screenshots](#screenshots)
+* [Setup](#setup)
+* [Project Status](#project-status)
+* [Room for Improvement](#room-for-improvement)
+* [Contact](#contact)
+<!-- * [License](#license) -->
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-## Description
+## General Information
+- Academy App Backend is an application developed to help young Korean students to learn English and take assessments from home during COVID-19. 
+- [Academy Frontend App](https://github.com/aisenkim/academy-frontend)
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
-## Installation
 
-```bash
-$ npm install
-```
+## Technologies Used
+- 😺 Nest JS - version 7.5.1
+- 🆃 Typescript - version 4.6.1 
+- 🗺 TypeORM - version 7.1.5
+- 🐘 Postgresql - 8.6.0
 
-## Running the app
 
-```bash
-# development
-$ npm run start
+## Features
+- [Reference here](https://github.com/aisenkim/academy-frontend)
 
-# watch mode
-$ npm run start:dev
 
-# production mode
-$ npm run start:prod
-```
+## Screenshots
+- [Reference here](https://github.com/aisenkim/academy-frontend)
 
-## Test
+## Setup
+#### local machine setup
+1. Install postgres on local machine
+2. Create a database called `academy`
+3. `npm install`
+4. `npm start`
+5. Clone backend from [here](https://github.com/aisenkim/academy-refactor)
+</br>
+#### hosted site testing
+🔑 username - manager </br>
+🔑 password - eiesusung2020!
 
-```bash
-# unit tests
-$ npm run test
 
-# e2e tests
-$ npm run test:e2e
+[comment]: <> (## Usage)
 
-# test coverage
-$ npm run test:cov
-```
+[comment]: <> (How does one go about using it?)
 
-## Support
+[comment]: <> (Provide various use cases and code examples here.)
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+[comment]: <> (`write-your-code-here`)
 
-## Stay in touch
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+## Project Status
+Project is: _in progress_  
 
-## License
 
-Nest is [MIT licensed](LICENSE).
+## Room for Improvement
+- Add more features 
+- Improve query design 
+- Improve logging
+- Add versioning to the API
+
+
+## Contact
+Created by [@aisenkim](https://www.linkedin.com/in/aisenkim/) - feel free to contact me!
+
+
+<!-- Optional -->
+<!-- ## License -->
+<!-- This project is open source and available under the [... License](). -->
+
+<!-- You don't have to include all sections - just the one's relevant to your project -->
