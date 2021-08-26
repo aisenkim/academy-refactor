@@ -9,11 +9,9 @@ export class PlanDto {
   @IsNotEmpty()
   level: string;
 
-  @IsNumber()
   @IsNotEmpty()
   from: number;
 
-  @IsNumber()
   @IsNotEmpty()
   to: number;
 

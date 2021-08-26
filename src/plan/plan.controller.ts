@@ -15,6 +15,7 @@ import { GetPlanDto } from './dto/get-plan.dto';
 import { GetUser } from '../auth/get-user.decorator';
 import { User } from '../auth/user.entity';
 import { AuthGuard } from '@nestjs/passport';
+import { PlanDto } from './dto/plan.dto';
 
 @Controller('plan')
 @UseGuards(AuthGuard('jwt'))
@@ -23,7 +24,7 @@ export class PlanController {
 
   @Post('/createPlan')
   @Roles('admin')
-  createPlan(@Body() plan) {
+  createPlan(@Body() plan: PlanDto) {
     return this.planService.createPlan(plan);
   }
 
@@ -32,6 +33,11 @@ export class PlanController {
     return this.planService.getPlan(getPlanDto);
   }
 
+  /**
+   * Can't be called from outside
+   * @param user
+   * @returns
+   */
   @Get()
   getPlanByUser(@GetUser() user: User) {
     return this.planService.getPlanByUser(user);

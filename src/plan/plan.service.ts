@@ -23,6 +23,13 @@ export class PlanService {
     // get users of the plan's level
     const levelFilteredUsers = allUsers.filter((user) => user.level === level);
     return await this.planRepository.createPlan(plan, levelFilteredUsers);
+    // const result = await this.planRepository.createPlan(
+    //   plan,
+    //   levelFilteredUsers,
+    // );
+    // console.log('printed here');
+    // console.log(result);
+    // return result;
   }
 
   async addPlansNewUser(username: string) {
