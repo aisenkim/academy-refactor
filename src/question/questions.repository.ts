@@ -58,6 +58,8 @@ export class QuestionsRepository extends Repository<Question> {
     const data = questionData.data;
     const level = questionData.level;
 
+    console.log(typeof data);
+
     try {
       data.shift(); // remove first data (don't need)
     } catch (error) {

@@ -106,7 +106,7 @@ export class PlanService {
     });
     // 2. delete plan from the user
     userJoinedByPlan.plan = userJoinedByPlan.plan.filter((userPlan) => {
-      return userPlan.id !== id;
+      userPlan.id != id;
     });
     // 3. save the user
     await this.userRepository.save(userJoinedByPlan);
